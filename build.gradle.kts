@@ -22,6 +22,7 @@ dependencies {
     implementation(libs.logback.classic)
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)
+    implementation("io.ktor:ktor-server-call-logging:<ktor_version>")
     implementation("org.jetbrains.exposed:exposed-core:${exposed_version}")
     implementation("org.jetbrains.exposed:exposed-dao:${exposed_version}")
     implementation("org.jetbrains.exposed:exposed-jdbc:${exposed_version}")
