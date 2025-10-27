@@ -6,10 +6,16 @@ import com.example.ai_Translator.domain.useCase.TranslateUseCase
 import com.example.ai_Translator.utils.ConfigLoader
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.json
 
 object AppModule {
     val httpClient: HttpClient by lazy {
-        HttpClient(CIO)
+        HttpClient(CIO){
+            install(ContentNegotiation){
+                json()
+            }
+        }
     }
 
     val azureClient : AzureTranslationClient by lazy {

@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TranslationRequest(
     val text: String,
-    val from: String?,
+    val from: String?=null,
     val to : String
 )
