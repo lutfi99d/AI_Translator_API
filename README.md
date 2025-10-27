@@ -1,43 +1,106 @@
-# ktor-AI_Translator_API
+# AI Translator API 🤖
 
-This project was created using the [Ktor Project Generator](https://start.ktor.io).
+A simple backend API built with **Ktor (Kotlin)** that translates text between languages using **Azure Translator API**.
 
-Here are some useful links to get you started:
+---
 
-- [Ktor Documentation](https://ktor.io/docs/home.html)
-- [Ktor GitHub page](https://github.com/ktorio/ktor)
-- The [Ktor Slack chat](https://app.slack.com/client/T09229ZC6/C0A974TJ9). You'll need to [request an invite](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up) to join.
+## 🚀 How to Run Project
 
-## Features
+1. Clone the repository: git clone <your-repo-url>
+2. Navigate into the project directory: cd ai-translator
+3. Make sure you have **JDK 17+** installed
+4. Build and run the Ktor server: ./gradlew run
+5. The server will run at: http://0.0.0.0:8081/
 
-Here's a list of features included in this project:
-
-| Name                                                                   | Description                                                                        |
-| ------------------------------------------------------------------------|------------------------------------------------------------------------------------ |
-| [Content Negotiation](https://start.ktor.io/p/content-negotiation)     | Provides automatic content conversion according to Content-Type and Accept headers |
-| [Routing](https://start.ktor.io/p/routing)                             | Provides a structured routing DSL                                                  |
-| [kotlinx.serialization](https://start.ktor.io/p/kotlinx-serialization) | Handles JSON serialization using kotlinx.serialization library                     |
-| [Authentication](https://start.ktor.io/p/auth)                         | Provides extension point for handling the Authorization header                     |
-| [Authentication Basic](https://start.ktor.io/p/auth-basic)             | Handles 'Basic' username / password authentication scheme                          |
-
-## Building & Running
-
-To build or run the project, use one of the following tasks:
-
-| Task                                    | Description                                                          |
-| -----------------------------------------|---------------------------------------------------------------------- |
-| `./gradlew test`                        | Run the tests                                                        |
-| `./gradlew build`                       | Build everything                                                     |
-| `./gradlew buildFatJar`                 | Build an executable JAR of the server with all dependencies included |
-| `./gradlew buildImage`                  | Build the docker image to use with the fat JAR                       |
-| `./gradlew publishImageToLocalRegistry` | Publish the docker image locally                                     |
-| `./gradlew run`                         | Run the server                                                       |
-| `./gradlew runDocker`                   | Run using the local docker image                                     |
-
-If the server starts successfully, you'll see the following output:
-
+## 🏗 Project Structure (Overview)
 ```
-2024-12-04 14:32:45.584 [main] INFO  Application - Application started in 0.303 seconds.
-2024-12-04 14:32:45.682 [main] INFO  Application - Responding at http://0.0.0.0:8080
+├── app/       🗂  # Ktor app entry (routes, config)
+├── domain/    📦  # Business logic (models, use cases)
+├── data/      🗃  # External data sources (repository, remote client)
+├── utils/     🛠  # Logger, Result wrapper, Config loader
+├── resources/ 🌐  # application.conf
+├── .env
+├── build.gradle.kts
+├── README.md
+└── .gitignore
+```
+
+## 🔑 How to Set Up Azure Key
+
+1. Sign in to [Azure Portal](https://portal.azure.com/) and create a **Translator resource**.
+2. Copy the following values:
+    - **Key** → `AZURE_KEY` 🔑
+    - **Region** → `AZURE_REGION` 🌍
+    - **Endpoint** → `AZURE_ENDPOINT` 🌐
+3. Create a `.env` file in the project root:
+```env
+AZURE_KEY=your_key_here
+AZURE_REGION=your_region_here
+AZURE_ENDPOINT=https://api.cognitive.microsofttranslator.com/
+```
+
+📬 Example Postman Requests:
+1.🩺 Health Check
+-GET /health
+-Response:
+
+```json
+{
+  "status": "Server is running successfully"
+}
+```
+
+2.🌐 Translate Text
+POST /translate
+Content-Type: application/json
+-Body:
+
+```json
+{
+  "text": "Hello world",
+  "to": "ar"
+}
+```
+
+-Response:
+```json
+{
+  "translatedText": "مرحبا بالعالم"
+}
+```
+
+⚠️ Edge Cases:
+
+1.Empty text:
+
+```json
+{
+  "text": "",
+  "to": "ar"
+}
+```
+
+-response:
+
+```json
+{
+  "error": "Text cannot be empty"
+}
+```
+
+2.Invalid target language:
+
+```json
+{
+  "text": "Hello",
+  "to": "xyz"
+}
+```
+
+-Response:
+```json
+{
+  "error": "Translation failed: ..."
+}
 ```
 
