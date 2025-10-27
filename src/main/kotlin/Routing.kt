@@ -1,16 +1,13 @@
 package com.example
 
-import io.ktor.serialization.kotlinx.json.*
+import com.example.ai_Translator.app.routes.healthRoute
+import com.example.ai_Translator.app.routes.translateRoute
 import io.ktor.server.application.*
-import io.ktor.server.auth.*
-import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
     routing {
-        get("/") {
-            call.respondText("Hello World!")
-        }
+        healthRoute()
+        translateRoute()
     }
 }
